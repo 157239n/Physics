@@ -1,6 +1,5 @@
 package org.kelvinho.physics.bouncing;
 
-import org.kelvinho.physics.ui.DrawingArea;
 import org.kelvinho.physics.ui.ViewPoint;
 import org.kelvinho.physics.utilities.Time;
 import processing.core.PApplet;
@@ -103,6 +102,7 @@ public class System {
                 return particles;
             }
 
+            @SuppressWarnings("SameParameterValue")
             private static ArrayList<Particle> lattice(@Nonnull ViewPoint viewPoint, @Nonnull PVector massRange, int row, int column, @Nullable Random random) {
                 if (random == null) {
                     random = new Random(157239L);

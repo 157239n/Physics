@@ -5,6 +5,9 @@ import processing.core.PVector;
 
 import javax.annotation.Nonnull;
 
+/**
+ * This basically converts from a mathematical screen to the actual screen.
+ */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class ViewPoint {
     private PVector realCenter;
@@ -20,21 +23,21 @@ public class ViewPoint {
          * Centered, y direction flipped, 600 meters scale
          */
         public static ViewPoint centered(@Nonnull PApplet sketch) {
-            return new ViewPoint(new PVector(0, 0), new PVector(600, 600), DrawingArea.standard(0), sketch);
+            return new ViewPoint(new PVector(0, 0), new PVector(600, 600), DrawingArea.standard(new PVector(0, 0)), sketch);
         }
 
         /**
          * Positive y, centered x, y direction flipped, 600 meters scale
          */
         public static ViewPoint floor(@Nonnull PApplet sketch) {
-            return new ViewPoint(new PVector(0, 300), new PVector(600, 600), DrawingArea.standard(0), sketch);
+            return new ViewPoint(new PVector(0, 300), new PVector(600, 600), DrawingArea.standard(new PVector(0, 0)), sketch);
         }
 
         /**
          * Positive y, centered x, y direction flipped, 0.5 meters scale
          */
         public static ViewPoint smallFloor(@Nonnull PApplet sketch) {
-            return new ViewPoint(new PVector(0, 0.25f), new PVector(0.5f, 0.5f), DrawingArea.standard(0), sketch);
+            return new ViewPoint(new PVector(0, 0.25f), new PVector(0.5f, 0.5f), DrawingArea.standard(new PVector(0, 0)), sketch);
         }
     }
 
@@ -43,6 +46,7 @@ public class ViewPoint {
         this.realDimension = realDimension.copy();
         this.drawingArea = drawingArea;
         this.sketch = sketch;
+        this.drawingArea.setSketch(sketch);
     }
 
     /**
@@ -72,25 +76,48 @@ public class ViewPoint {
     }
 
     public void line(float x1, float y1, float x2, float y2) {
-        sketch.line(x(x1), y(y1), x(x2), y(y2));
+        drawingArea.line(x(x1), y(y1), x(x2), y(y2));
     }
 
     public void ellipse(float a, float b, float c, float d) {
-        sketch.ellipse(x(a), y(b), c, d);
+        drawingArea.ellipse(x(a), y(b), c, d);
     }
 
     public void rect(float a, float b, float c, float d) {
-        sketch.rect(x(a), y(b), w(c), h(d));
+        drawingArea.rect(x(a), y(b), w(c), h(d));
     }
 
+    /**
+     * Actually draws to the screen
+     */
+    public void draw() {
+        drawingArea.draw();
+    }
+
+    /**
+     * Gets the inner sketch
+     *
+     * @return the sketch
+     */
     public PApplet getSketch() {
         return sketch;
     }
 
+    /**
+     * Gets the DrawingArea
+     *
+     * @return the DrawingArea
+     */
     public DrawingArea getDrawingArea() {
         return drawingArea;
     }
 
+    /**
+     * Whether this real point is inside the sketch or not
+     *
+     * @param point real point
+     * @return inside the sketch?
+     */
     public boolean insideSketch(@Nonnull PVector point) {
         float screenX = x(point.x);
         float screenY = y(point.y);
@@ -99,6 +126,9 @@ public class ViewPoint {
 
     /**
      * Return the real x range, but scaled with percentageLength.
+     *
+     * @param percentageLength percentage of real width
+     * @return the new real x range
      */
     public PVector xRange(float percentageLength) {
         return new PVector(realCenter.x - percentageLength * PApplet.abs(realDimension.x * 0.5f), realCenter.x + percentageLength * PApplet.abs(realDimension.x * 0.5f));
@@ -106,6 +136,9 @@ public class ViewPoint {
 
     /**
      * Return the real y range, but scaled with percentageLength.
+     *
+     * @param percentageLength percentage of real height
+     * @return the new real y range
      */
     public PVector yRange(float percentageLength) {
         return new PVector(realCenter.y - percentageLength * PApplet.abs(realDimension.y * 0.5f), realCenter.y + percentageLength * PApplet.abs(realDimension.y * 0.5f));

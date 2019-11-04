@@ -37,7 +37,7 @@ public class Entry extends PApplet {
                 new RealTimeGraph.Series("Potential energy (J)", this.color(0, 255, 0)),
                 new RealTimeGraph.Series("Total energy (J)", this.color(0, 0, 255)),
                 new RealTimeGraph.Series("Energy per unit mass (J/kg)", this.color(255))
-        )), DrawingArea.standard(1), this, time, new PVector(0, 100));
+        )), DrawingArea.standard(new PVector(1, 0)), this, time, new PVector(0, 100));
         background(0);
         stroke(255);
         fill(255);

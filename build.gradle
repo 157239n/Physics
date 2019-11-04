@@ -40,7 +40,7 @@ dependencies {
 
 application {
     // Define the main class for the application
-    mainClassName = 'org.kelvinho.testGeneralPhysics.App'
+    mainClassName = 'org.kelvinho.physics.bouncing.Entry'
 }
 jar {
     manifest {

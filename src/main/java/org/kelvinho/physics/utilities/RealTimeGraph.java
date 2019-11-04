@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * A real time graph. You push values in, you graph, old values get demolished.
+ */
 @SuppressWarnings("unused")
 public class RealTimeGraph {
     public static class Series {
